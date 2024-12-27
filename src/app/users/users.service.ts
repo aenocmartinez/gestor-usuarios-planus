@@ -30,5 +30,25 @@ export class UsersService {
       })
     );
   }
+
+  getUserByEmail(email: string): Observable<any> {
+    const url = `${this.baseUrl}/${email}`;
+    return from(this.authService.getToken()).pipe(
+      switchMap((token) => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get(url, { headers });
+      })
+    );
+  }
+
+  updateUser(user: any): Observable<any> {
+    const url = `${this.baseUrl}/Editar`;
+    return from(this.authService.getToken()).pipe(
+      switchMap((token) => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.put(url, user, { headers });
+      })
+    );
+  }  
   
 }
