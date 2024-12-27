@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { UsersService } from '../users.service';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCardModule],
+  imports: [CommonModule, MatTableModule, MatCardModule, MatButtonModule, RouterModule],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
 })

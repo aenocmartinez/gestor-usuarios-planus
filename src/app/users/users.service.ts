@@ -20,4 +20,15 @@ export class UsersService {
       })
     );
   }
+
+  createUser(user: any): Observable<any> {
+    const url = `${this.baseUrl}/Agregar`;
+    return from(this.authService.getToken()).pipe(
+      switchMap((token) => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.post(url, user, { headers });
+      })
+    );
+  }
+  
 }

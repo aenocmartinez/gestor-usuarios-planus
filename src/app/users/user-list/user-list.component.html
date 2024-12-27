@@ -1,4 +1,9 @@
 <div fxLayout="column" fxLayoutAlign="center stretch">
+
+  <div fxLayout="row" fxLayoutAlign="end center" style="margin-bottom: 16px;">
+    <button mat-raised-button color="primary" routerLink="/users/create">Crear Usuario</button>
+  </div>
+
     <mat-card>
       <h2>Lista de Usuarios</h2>
       <table mat-table [dataSource]="users" class="mat-elevation-z8">
