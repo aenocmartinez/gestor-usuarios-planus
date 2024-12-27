@@ -88,3 +88,24 @@
     margin-top: 24px;
   }
   
+
+  .success-message {
+    color: #4caf50; /* Verde para éxito */
+    font-size: 14px;
+    margin: 16px 0;
+    text-align: center;
+    font-weight: 500;
+    background-color: #e8f5e9; /* Fondo verde claro */
+    padding: 10px;
+    border: 1px solid #4caf50;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    color: #f44336; /* Rojo para errores */
+    font-size: 14px;
+    margin: 16px 0;
+    text-align: center;
+    font-weight: 500;
+  }
+  

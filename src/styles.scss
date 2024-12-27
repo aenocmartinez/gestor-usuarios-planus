@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilo para mensajes de éxito */
+.success-snackbar {
+    background-color: #d4edda; /* Verde suave */
+    color: #155724; /* Texto verde oscuro */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 16px 0;
+    width: 100vw; /* Ancho completo de la ventana */
+    position: fixed; /* Fijo en la parte superior */
+    top: 0; /* Posicionado en la parte superior */
+    left: 0; /* Alineado al borde izquierdo */
+    z-index: 1000; /* Asegura que se muestre sobre otros elementos */
+  }
+  
+  /* Estilo para mensajes de error */
+  .error-snackbar {
+    background-color: #f8d7da; /* Rojo suave */
+    color: #721c24; /* Texto rojo oscuro */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 16px 0;
+    width: 100vw; /* Ancho completo de la ventana */
+    position: fixed; /* Fijo en la parte superior */
+    top: 0; /* Posicionado en la parte superior */
+    left: 0; /* Alineado al borde izquierdo */
+    z-index: 1000; /* Asegura que se muestre sobre otros elementos */
+  }
+  
+  /* Ajuste del contenedor del snackbar */
+  .mat-snack-bar-container {
+    background: transparent !important; /* Eliminar fondo negro */
+    box-shadow: none !important; /* Sin sombras */
+    padding: 0 !important; /* Eliminar paddings externos */
+    margin: 0 !important; /* Sin márgenes */
+    max-width: 100% !important; /* Ocupa todo el ancho */
+  }
+  
