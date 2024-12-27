@@ -1,0 +1,25 @@
+<div fxLayout="column" fxLayoutAlign="center stretch">
+    <mat-card>
+      <h2>Lista de Usuarios</h2>
+      <table mat-table [dataSource]="users" class="mat-elevation-z8">
+        <ng-container matColumnDef="nombres">
+          <th mat-header-cell *matHeaderCellDef> Nombres </th>
+          <td mat-cell *matCellDef="let user"> {{ user.nombres }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="apellidos">
+          <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+          <td mat-cell *matCellDef="let user"> {{ user.apellidos }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="['nombres', 'apellidos', 'email']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['nombres', 'apellidos', 'email']"></tr>
+      </table>
+    </mat-card>
+  </div>
+  
