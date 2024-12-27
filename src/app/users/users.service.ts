@@ -49,6 +49,17 @@ export class UsersService {
         return this.http.put(url, user, { headers });
       })
     );
-  }  
+  } 
+  
+  deleteUser(email: string): Observable<any> {
+    const url = `${this.baseUrl}/Eliminar/${email}`;
+    return from(this.authService.getToken()).pipe(
+      switchMap((token) => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.delete(url, { headers });
+      })
+    );
+  }
+  
   
 }

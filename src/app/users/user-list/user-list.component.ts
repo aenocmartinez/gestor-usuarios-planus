@@ -33,4 +33,19 @@ export class UserListComponent implements OnInit {
       }
     );
   }
+
+  deleteUser(email: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+      this.usersService.deleteUser(email).subscribe(
+        (response) => {
+          console.log('Usuario eliminado:', response);
+          this.loadUsers(); // Recargar la lista de usuarios después de eliminar
+        },
+        (error) => {
+          console.error('Error al eliminar usuario:', error);
+        }
+      );
+    }
+  }
+  
 }
