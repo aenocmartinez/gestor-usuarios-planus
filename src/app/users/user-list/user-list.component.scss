@@ -1,0 +1,84 @@
+/* Estructura General */
+.container {
+    max-width: 1200px;
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 16px;
+  }
+  
+  /* Título */
+  header h1 {
+    font-size: 28px;
+    color: #3f51b5;
+  }
+  
+  /* Buscador y Botón */
+  header .d-flex {
+    gap: 16px; /* Añade espacio entre el buscador y el botón */
+  }
+  
+  mat-form-field {
+    width: 100%;
+    max-width: 75%;
+    margin-bottom: 16px;
+  
+    input {
+      font-size: 16px;
+      padding: 8px;
+    }
+  
+    mat-label {
+      font-weight: 500;
+      font-size: 14px;
+      color: #3f51b5;
+    }
+  }
+  
+  /* Botón Crear Usuario */
+  button[routerLink="/users/create"] {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap; /* Evita que el texto se divida */
+    margin-left: 32px; /* Incrementa el espacio entre el botón y el buscador */
+  }
+  
+  /* Tabla */
+  table {
+    th {
+      font-weight: 600;
+      color: #3f51b5;
+      background-color: #f3f6f9;
+      padding: 16px;
+      text-align: center; /* Títulos centrados */
+    }
+  
+    td {
+      padding: 16px;
+      text-align: left;
+      background-color: #fff;
+    }
+  
+    tr:hover td {
+      background-color: #f9f9f9;
+    }
+  }
+  
+  /* Tarjeta de la Tabla */
+  mat-card {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Pie de Página */
+  .footer {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    text-align: center; /* Asegura que el texto esté alineado */
+    margin-top: 16px; /* Espaciado superior */
+    font-size: 14px;
+    color: #999;
+    height: 60px; /* Define una altura fija para el pie */
+    background-color: #f9f9f9; /* Fondo claro */
+  }
+  

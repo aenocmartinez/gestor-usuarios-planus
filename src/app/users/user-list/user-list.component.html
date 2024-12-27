@@ -1,46 +1,52 @@
-<div fxLayout="column" fxLayoutAlign="center stretch">
+<div class="container">
+  <!-- Título, Buscador y Botón -->
+  <header class="text-center py-4">
+    <h1 class="mb-3 text-primary">Gestión de Usuarios</h1>
+    <div class="d-flex justify-content-between align-items-center gap-4">
+      <mat-form-field class="w-75" appearance="fill">
+        <mat-label>Buscar</mat-label>
+        <input matInput (input)="applyFilter($event)" placeholder="Buscar por nombre, apellidos o correo" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" routerLink="/users/create">+ Crear Usuario</button>
+    </div>
+  </header>
 
-  <div fxLayout="row" fxLayoutAlign="end center" style="margin-bottom: 16px;">
-    <button mat-raised-button color="primary" routerLink="/users/create">Crear Usuario</button>
-  </div>
+  <!-- Tabla con Paginación -->
+  <main>
+    <mat-card>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
+        <ng-container matColumnDef="nombres">
+          <th mat-header-cell *matHeaderCellDef>Nombres</th>
+          <td mat-cell *matCellDef="let user">{{ user.nombres }}</td>
+        </ng-container>
 
-  <mat-card>
-    <h2>Lista de Usuarios</h2>
-    <table mat-table [dataSource]="users" class="mat-elevation-z8">
-      <!-- Columna Nombres -->
-      <ng-container matColumnDef="nombres">
-        <th mat-header-cell *matHeaderCellDef> Nombres </th>
-        <td mat-cell *matCellDef="let user"> {{ user.nombres }} </td>
-      </ng-container>
+        <ng-container matColumnDef="apellidos">
+          <th mat-header-cell *matHeaderCellDef>Apellidos</th>
+          <td mat-cell *matCellDef="let user">{{ user.apellidos }}</td>
+        </ng-container>
 
-      <!-- Columna Apellidos -->
-      <ng-container matColumnDef="apellidos">
-        <th mat-header-cell *matHeaderCellDef> Apellidos </th>
-        <td mat-cell *matCellDef="let user"> {{ user.apellidos }} </td>
-      </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
 
-      <!-- Columna Email -->
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let user"> {{ user.email }} </td>
-      </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let user">
+            <button mat-stroked-button color="accent" [routerLink]="['/users/edit', user.email]">Editar</button>
+            <button mat-stroked-button color="warn" (click)="deleteUser(user.email)">Eliminar</button>
+          </td>
+        </ng-container>
 
-      <!-- Columna Acciones -->
-      <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef> Acciones </th>
-        <td mat-cell *matCellDef="let user">
-          <button mat-button color="accent" [routerLink]="['/users/edit', user.email]">
-            Editar
-          </button>
-          <button mat-button color="warn" (click)="deleteUser(user.email)">
-            Eliminar
-          </button>
-        </td>
-      </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card>
+  </main>
 
-      <!-- Filas y Encabezados -->
-      <tr mat-header-row *matHeaderRowDef="['nombres', 'apellidos', 'email', 'acciones']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['nombres', 'apellidos', 'email', 'acciones']"></tr>
-    </table>
-  </mat-card>
+  <!-- Pie de Página -->
+  <footer class="footer">
+    © {{ currentYear }} Sistema de Gestión de Usuarios
+  </footer>
 </div>
