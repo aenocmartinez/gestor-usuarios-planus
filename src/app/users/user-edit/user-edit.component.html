@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center stretch">
   <mat-card>
     <h2>Editar Usuario</h2>
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()"> <!-- Verifica este atributo -->
       <mat-form-field appearance="fill">
         <mat-label>Nombres</mat-label>
         <input matInput formControlName="nombres" required />

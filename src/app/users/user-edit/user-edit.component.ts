@@ -35,8 +35,9 @@ export class UserEditComponent implements OnInit {
     this.userForm = this.fb.group({
       nombres: ['', [Validators.required]],
       apellidos: ['', [Validators.required]],
-      email: [{ value: '', disabled: true }, [Validators.required, Validators.email]], // Deshabilitado aquí
+      email: [{ value: '', disabled: false }, [Validators.required, Validators.email]], 
       password: [''],
+      id: [''], 
     });
   }
 
@@ -52,6 +53,7 @@ export class UserEditComponent implements OnInit {
           nombres: user.nombres,
           apellidos: user.apellidos,
           email: user.email,
+          id: user.id,
         });
       },
       (error) => {
@@ -62,10 +64,18 @@ export class UserEditComponent implements OnInit {
 
   onSubmit(): void {
     if (this.userForm.valid) {
-      this.usersService.updateUser(this.userForm.getRawValue()).subscribe( // Usar getRawValue para incluir campos deshabilitados
+      const user = {
+        Nombres: this.userForm.value.nombres,
+        Apellidos: this.userForm.value.apellidos,
+        Email: this.userForm.getRawValue().email, 
+        Password: this.userForm.value.password || '', 
+        id: this.userForm.value.id,
+      };
+  
+      this.usersService.updateUser(user).subscribe(
         (response) => {
           console.log('Usuario actualizado:', response);
-          this.router.navigate(['/users']);
+          this.router.navigate(['/users']); 
         },
         (error) => {
           console.error('Error al actualizar usuario:', error);
@@ -73,4 +83,5 @@ export class UserEditComponent implements OnInit {
       );
     }
   }
+  
 }
