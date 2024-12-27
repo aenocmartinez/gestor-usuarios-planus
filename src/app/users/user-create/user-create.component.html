@@ -1,7 +1,12 @@
-<div fxLayout="column" fxLayoutAlign="center stretch">
-    <mat-card>
-      <h2>Crear Usuario</h2>
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+<div class="container">
+  <header class="text-center py-4">
+    <h1 class="text-primary">Crear Usuario</h1>
+  </header>
+
+  <main>
+    <mat-card class="form-card">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="center stretch">
+        <!-- Nombres -->
         <mat-form-field appearance="fill">
           <mat-label>Nombres</mat-label>
           <input matInput formControlName="nombres" required />
@@ -9,7 +14,8 @@
             Este campo es obligatorio.
           </mat-error>
         </mat-form-field>
-  
+
+        <!-- Apellidos -->
         <mat-form-field appearance="fill">
           <mat-label>Apellidos</mat-label>
           <input matInput formControlName="apellidos" required />
@@ -17,7 +23,8 @@
             Este campo es obligatorio.
           </mat-error>
         </mat-form-field>
-  
+
+        <!-- Email -->
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="email" required />
@@ -28,7 +35,8 @@
             Ingrese un email válido.
           </mat-error>
         </mat-form-field>
-  
+
+        <!-- Contraseña -->
         <mat-form-field appearance="fill">
           <mat-label>Contraseña</mat-label>
           <input matInput type="password" formControlName="password" required />
@@ -39,11 +47,22 @@
             La contraseña debe tener al menos 6 caracteres.
           </mat-error>
         </mat-form-field>
-  
-        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">
-          Crear Usuario
-        </button>
+
+        <!-- Mensaje de Error -->
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Botones -->
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">
+            Crear Usuario
+          </button>
+          <button mat-raised-button color="warn" type="button" (click)="cancel()">
+            Cancelar
+          </button>
+        </div>
       </form>
     </mat-card>
-  </div>
-  
+  </main>
+</div>
