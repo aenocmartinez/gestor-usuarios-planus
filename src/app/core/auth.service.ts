@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly baseUrl = 'http://172.20.23.39:9200/Autenticacion/Login';
-  private token: string = ''; // Almacenar el token en memoria
+  private readonly tokenKey = 'token';
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  async getToken(): Promise<string> {
-    if (this.token) {
-      console.log('Token desde memoria:', this.token); 
-      return this.token;
-    }
+  // Obtener el token desde sessionStorage
+  getToken(): string | null {
+    return sessionStorage.getItem(this.tokenKey);
+  }
 
-    const response: any = await this.http
-      .post(this.baseUrl, { email: 'jose_murcia@museonacional.gov.co', password: 'Mnc1234*' })
-      .toPromise();
+  // Guardar el token en sessionStorage
+  setToken(token: string): void {
+    sessionStorage.setItem(this.tokenKey, token);
+  }
 
-    this.token = response.token;
-    // console.log('Token obtenido del servidor:', this.token); 
-    return this.token;
+  // Eliminar el token de sessionStorage (por ejemplo, al cerrar sesión)
+  clearToken(): void {
+    sessionStorage.removeItem(this.tokenKey);
   }
 }

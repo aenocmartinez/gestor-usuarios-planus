@@ -73,16 +73,34 @@ export class LoginComponent implements AfterViewInit {
     // console.warn('El Captcha ha expirado. Por favor, intente nuevamente.');
   }
 
+  // onSubmit(): void {
+  //   if (this.loginForm.valid) {
+  //     const { email, password, recaptcha } = this.loginForm.value;
+  //     this.http.post('http://172.20.23.39:9200/Autenticacion/Login', { email, password, recaptcha }).subscribe(
+  //       (response: any) => {
+  //         localStorage.setItem('token', response.token);
+  //         localStorage.setItem('nombreUsuario', response.nombreUsuario);
+  //         localStorage.setItem('idSesion', response.idSesion);
+
+  //         this.router.navigate(['/users']);
+  //       },
+  //       (error) => {
+  //         console.error('Error de inicio de sesión:', error);
+  //         this.errorMessage = 'El email o la contraseña son incorrectos.';
+  //       }
+  //     );
+  //   }
+  // }
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password, recaptcha } = this.loginForm.value;
       this.http.post('http://172.20.23.39:9200/Autenticacion/Login', { email, password, recaptcha }).subscribe(
         (response: any) => {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('nombreUsuario', response.nombreUsuario);
+          localStorage.setItem('token', response.token); // Guarda el token
+          localStorage.setItem('nombreUsuario', response.nombreUsuario); // Guarda el nombre
           localStorage.setItem('idSesion', response.idSesion);
-
-          this.router.navigate(['/users']);
+          this.router.navigate(['/users']); // Redirige al listado de usuarios
         },
         (error) => {
           console.error('Error de inicio de sesión:', error);
@@ -91,4 +109,5 @@ export class LoginComponent implements AfterViewInit {
       );
     }
   }
+  
 }
