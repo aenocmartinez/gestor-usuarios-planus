@@ -13,10 +13,12 @@ export class UsersService {
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error('Token no disponible. Inicie sesión nuevamente.');
+      console.warn('Token no disponible.');
+      return new HttpHeaders(); // Devuelve un encabezado vacío
     }
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
+  
   
 
   getUsers(): Observable<any> {

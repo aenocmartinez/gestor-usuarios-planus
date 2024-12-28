@@ -46,6 +46,14 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.warn('Token no disponible. Redirigiendo al login...');
+      localStorage.clear();
+      this.router.navigate(['/login']);
+      return;
+    }
+        
     this.email = this.route.snapshot.paramMap.get('email') || '';
     this.loadUserData();
   }

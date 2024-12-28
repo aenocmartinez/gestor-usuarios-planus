@@ -24,10 +24,11 @@ import { MatButtonModule } from '@angular/material/button';
 export class LogoutComponent {
   constructor(private router: Router) {}
 
-  logout(): void {
+  logout(): void {    
     localStorage.removeItem('token');
     localStorage.removeItem('nombreUsuario');
     localStorage.removeItem('idSesion');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 }

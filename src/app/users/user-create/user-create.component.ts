@@ -42,6 +42,16 @@ export class UserCreateComponent {
     });
   }
 
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.warn('Token no disponible. Redirigiendo al login...');
+      localStorage.clear();
+      this.router.navigate(['/login']);
+      return;
+    }    
+  }  
+
   onSubmit(): void {
     this.errorMessage = null; // Limpiar mensajes previos
     if (this.userForm.valid) {
