@@ -1,0 +1,51 @@
+<div class="login-container">
+    <mat-card class="login-card">
+      <h1 class="login-title">Inicio de Sesión</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <!-- Campo de Email -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            placeholder="Ingrese su email"
+            autocomplete="off"
+          />
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">El email es obligatorio.</mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Ingrese un email válido.</mat-error>
+        </mat-form-field>
+  
+        <!-- Campo de Contraseña -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            type="password"
+            placeholder="Ingrese su contraseña"
+          />
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">La contraseña es obligatoria.</mat-error>
+        </mat-form-field>
+  
+        <!-- reCAPTCHA -->
+        <div class="captcha-container">
+          <div id="g-recaptcha"></div>
+          <div *ngIf="loginForm.get('recaptcha')?.invalid && loginForm.get('recaptcha')?.touched" class="captcha-error">
+            Debe verificar el reCAPTCHA.
+          </div>
+        </div>
+  
+        <!-- Botón de Iniciar Sesión -->
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" class="login-button">
+          Iniciar Sesión
+        </button>
+      </form>
+  
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </mat-card>
+  </div>
+  
