@@ -1,0 +1,23 @@
+.logout-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+.logout-button {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #f44336;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
