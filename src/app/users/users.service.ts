@@ -77,4 +77,12 @@ export class UsersService {
     return this.http.put(url, body, { headers });
   }  
   
+  unassignRoleFromUser(idUsuario: string, idRol: string, idMuseo: number = 1): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const url = `${this.baseUrl}/DesasignarRolAUsuario`;
+    const body = { idUsuario, idRol, idMuseo };
+  
+    return this.http.put(url, body, { headers });
+  }
+  
 }

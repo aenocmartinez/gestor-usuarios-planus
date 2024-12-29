@@ -42,6 +42,17 @@
           <input matInput type="password" formControlName="password" />
         </mat-form-field>
 
+        <!-- Rol -->
+        <mat-form-field appearance="fill">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="rol" required>
+            <mat-option *ngFor="let role of roles" [value]="role.value">{{ role.label }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="userForm.get('rol')?.hasError('required')">
+            Seleccionar un rol es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
         <!-- Mensaje de Error -->
         <div *ngIf="errorMessage" class="error-message">
           {{ errorMessage }}
