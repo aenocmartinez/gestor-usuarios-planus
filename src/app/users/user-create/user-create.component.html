@@ -48,6 +48,19 @@
           </mat-error>
         </mat-form-field>
 
+        <!-- Rol -->
+        <mat-form-field appearance="fill">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="idRol" required>
+            <mat-option *ngFor="let rol of roles" [value]="rol.idRol">
+              {{ rol.nombreRol }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="userForm.get('idRol')?.hasError('required')">
+            Debe seleccionar un rol.
+          </mat-error>
+        </mat-form-field>
+
         <!-- Mensaje de Error -->
         <div *ngIf="errorMessage" class="error-message">
           {{ errorMessage }}

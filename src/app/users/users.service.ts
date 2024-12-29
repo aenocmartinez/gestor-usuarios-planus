@@ -63,4 +63,10 @@ export class UsersService {
     return this.http.post(url, body, { headers });
   }
   
+  getRolesByMuseo(idMuseo: number): Observable<any[]> {
+    const url = `http://172.20.23.39:9200/Museos/ObtenerRolesPorMuseo/${idMuseo}`;
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(url, { headers });
+  }
+  
 }
