@@ -68,5 +68,13 @@ export class UsersService {
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(url, { headers });
   }
+
+  assignPasswordToUser(emailUsuario: string, password: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const url = 'http://172.20.23.39:9200/Autenticacion/AsignarPasswordAUsuario';
+    const body = { emailUsuario, password };
+  
+    return this.http.put(url, body, { headers });
+  }  
   
 }

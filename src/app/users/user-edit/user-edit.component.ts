@@ -79,6 +79,32 @@ export class UserEditComponent implements OnInit {
     );
   }
 
+  // onSubmit(): void {
+  //   if (this.userForm.valid) {
+  //     const user = {
+  //       Nombres: this.userForm.value.nombres,
+  //       Apellidos: this.userForm.value.apellidos,
+  //       Email: this.userForm.getRawValue().email, // Obtener el valor deshabilitado
+  //       Password: this.userForm.value.password || '', // Si no se actualiza, enviar vacío
+  //       id: this.userForm.value.id, // ID del usuario
+  //     };
+
+  //     this.usersService.updateUser(user).subscribe(
+  //       (response) => {
+  //         this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
+  //           duration: 5000,
+  //           panelClass: ['success-snackbar'],
+  //         });
+  //         this.router.navigate(['/users']); // Redirige al listado de usuarios
+  //       },
+  //       (error) => {
+  //         console.error('Error al actualizar usuario:', error);
+  //         this.errorMessage = 'No se pudo actualizar el usuario. Por favor, intenta de nuevo.';
+  //       }
+  //     );
+  //   }
+  // }
+
   onSubmit(): void {
     if (this.userForm.valid) {
       const user = {
@@ -88,14 +114,35 @@ export class UserEditComponent implements OnInit {
         Password: this.userForm.value.password || '', // Si no se actualiza, enviar vacío
         id: this.userForm.value.id, // ID del usuario
       };
-
+  
       this.usersService.updateUser(user).subscribe(
         (response) => {
-          this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
-            duration: 5000,
-            panelClass: ['success-snackbar'],
-          });
-          this.router.navigate(['/users']); // Redirige al listado de usuarios
+          if (user.Password.trim() !== '') {
+            // Si se proporciona una nueva contraseña, asignarla al usuario
+            this.usersService.assignPasswordToUser(user.Email, user.Password).subscribe(
+              () => {
+                this.snackBar.open('Usuario y contraseña actualizados exitosamente.', 'Cerrar', {
+                  duration: 5000,
+                  panelClass: ['success-snackbar'],
+                });
+                this.router.navigate(['/users']); // Redirige al listado de usuarios
+              },
+              (error) => {
+                console.error('Error al asignar contraseña al usuario:', error);
+                this.snackBar.open(
+                  'Usuario actualizado, pero no se pudo cambiar la contraseña.',
+                  'Cerrar',
+                  { duration: 5000, panelClass: ['error-snackbar'] }
+                );
+              }
+            );
+          } else {
+            this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
+              duration: 5000,
+              panelClass: ['success-snackbar'],
+            });
+            this.router.navigate(['/users']); // Redirige al listado de usuarios
+          }
         },
         (error) => {
           console.error('Error al actualizar usuario:', error);
@@ -104,6 +151,7 @@ export class UserEditComponent implements OnInit {
       );
     }
   }
+  
 
   cancel(): void {
     this.router.navigate(['/users']); // Redirige al listado de usuarios
