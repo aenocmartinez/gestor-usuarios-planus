@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { environment } from '../../environments/environment';
+
 declare const grecaptcha: any;
 
 @Component({
@@ -47,6 +49,10 @@ export class LoginComponent implements AfterViewInit {
   }
 
   loadCaptcha(): void {
+    if (typeof grecaptcha === 'undefined') {
+      console.error('ReCaptcha no está disponible. Asegúrate de que el script de ReCaptcha esté cargado.');
+      return;
+    }
     grecaptcha.ready(() => {
       grecaptcha.render('g-recaptcha', {
         sitekey: this.siteKey,
@@ -60,54 +66,45 @@ export class LoginComponent implements AfterViewInit {
   onCaptchaResolved(captchaResponse: string): void {
     this.loginForm.get('recaptcha')?.setValue(captchaResponse);
     this.loginForm.get('recaptcha')?.markAsTouched();
-    // console.log('Captcha Resolved:', captchaResponse);
+    console.log('Captcha resuelto:', captchaResponse);
   }
 
   onCaptchaError(): void {
     this.loginForm.get('recaptcha')?.setValue('');
-    // console.error('Error al resolver el Captcha');
+    console.error('Error al resolver el Captcha.');
   }
 
   onCaptchaExpired(): void {
     this.loginForm.get('recaptcha')?.setValue('');
-    // console.warn('El Captcha ha expirado. Por favor, intente nuevamente.');
+    console.warn('El Captcha ha expirado. Por favor, inténtelo de nuevo.');
   }
-
-  // onSubmit(): void {
-  //   if (this.loginForm.valid) {
-  //     const { email, password, recaptcha } = this.loginForm.value;
-  //     this.http.post('http://172.20.23.39:9200/Autenticacion/Login', { email, password, recaptcha }).subscribe(
-  //       (response: any) => {
-  //         localStorage.setItem('token', response.token);
-  //         localStorage.setItem('nombreUsuario', response.nombreUsuario);
-  //         localStorage.setItem('idSesion', response.idSesion);
-
-  //         this.router.navigate(['/users']);
-  //       },
-  //       (error) => {
-  //         console.error('Error de inicio de sesión:', error);
-  //         this.errorMessage = 'El email o la contraseña son incorrectos.';
-  //       }
-  //     );
-  //   }
-  // }
 
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password, recaptcha } = this.loginForm.value;
-      this.http.post('http://172.20.23.39:9200/Autenticacion/Login', { email, password, recaptcha }).subscribe(
-        (response: any) => {
-          localStorage.setItem('token', response.token); // Guarda el token
-          localStorage.setItem('nombreUsuario', response.nombreUsuario); // Guarda el nombre
-          localStorage.setItem('idSesion', response.idSesion);
-          this.router.navigate(['/users']); // Redirige al listado de usuarios
-        },
-        (error) => {
-          console.error('Error de inicio de sesión:', error);
-          this.errorMessage = 'El email o la contraseña son incorrectos.';
-        }
-      );
+
+      this.http
+        .post(`${environment.apiUrl}/Autenticacion/Login`, { email, password, recaptcha })
+        .subscribe(
+          (response: any) => {
+            if (response.token) {
+              localStorage.setItem('token', response.token); // Guarda el token
+              localStorage.setItem('nombreUsuario', response.nombreUsuario); // Guarda el nombre
+              localStorage.setItem('idSesion', response.idSesion);
+              this.router.navigate(['/users']); // Redirige al listado de usuarios
+            } else {
+              console.warn('Respuesta inesperada del servidor:', response);
+              this.errorMessage = 'Error al iniciar sesión. Por favor, inténtelo de nuevo.';
+            }
+          },
+          (error) => {
+            console.error('Error de inicio de sesión:', error);
+            this.errorMessage = error.error?.message || 'El email o la contraseña son incorrectos.';
+          }
+        );
+    } else {
+      console.warn('Formulario inválido:', this.loginForm.errors);
+      this.errorMessage = 'Por favor, complete todos los campos.';
     }
   }
-  
 }

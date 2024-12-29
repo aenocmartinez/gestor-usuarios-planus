@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 import { AuthService } from '../core/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
-  private readonly baseUrl = 'http://172.20.23.39:9200/Usuarios';
+  private readonly baseUrl = `${environment.apiUrl}/Usuarios`; // Corregir el uso de template literals
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -18,7 +19,7 @@ export class UsersService {
     }
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
-  
+
   assignRoleToUser(idUsuario: string, idMuseo: number, idRol: string): Observable<any> {
     const headers = this.getAuthHeaders();
     const url = `${this.baseUrl}/AsignarRolAUsuario`;
@@ -27,9 +28,8 @@ export class UsersService {
       idRol,
       idMuseo,
     };
-  
     return this.http.put(url, body, { headers });
-  }  
+  }
 
   getUsers(): Observable<any> {
     const headers = this.getAuthHeaders();
@@ -62,27 +62,24 @@ export class UsersService {
     const body = { idUsuario, idMuseo };
     return this.http.post(url, body, { headers });
   }
-  
+
   getRolesByMuseo(idMuseo: number): Observable<any[]> {
-    const url = `http://172.20.23.39:9200/Museos/ObtenerRolesPorMuseo/${idMuseo}`;
+    const url = `${environment.apiUrl}/Museos/ObtenerRolesPorMuseo/${idMuseo}`; // Utiliza `environment.apiUrl`
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(url, { headers });
   }
 
   assignPasswordToUser(emailUsuario: string, password: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    const url = 'http://172.20.23.39:9200/Autenticacion/AsignarPasswordAUsuario';
+    const url = `${environment.apiUrl}/Autenticacion/AsignarPasswordAUsuario`; // Utiliza `environment.apiUrl`
     const body = { emailUsuario, password };
-  
     return this.http.put(url, body, { headers });
-  }  
-  
+  }
+
   unassignRoleFromUser(idUsuario: string, idRol: string, idMuseo: number = 1): Observable<any> {
     const headers = this.getAuthHeaders();
     const url = `${this.baseUrl}/DesasignarRolAUsuario`;
     const body = { idUsuario, idRol, idMuseo };
-  
     return this.http.put(url, body, { headers });
   }
-  
 }
