@@ -29,7 +29,7 @@ import { UsersService } from '../users.service';
 export class UserCreateComponent implements OnInit {
   userForm: FormGroup;
   errorMessage: string | null = null;
-  roles: { idRol: string; nombreRol: string }[] = []; // Estructura del array actualizada
+  roles: { idRol: string; nombreRol: string }[] = []; 
 
   constructor(
     private usersService: UsersService,
@@ -42,7 +42,7 @@ export class UserCreateComponent implements OnInit {
       apellidos: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      idRol: ['', [Validators.required]], // Campo para el rol
+      idRol: ['', [Validators.required]], 
     });
   }
 
@@ -55,11 +55,11 @@ export class UserCreateComponent implements OnInit {
       return;
     }
 
-    this.loadRoles(); // Carga los roles al iniciar el componente
+    this.loadRoles(); 
   }
 
   private loadRoles(): void {
-    const idMuseo = 1; // ID fijo del museo
+    const idMuseo = 1; 
     this.usersService.getRolesByMuseo(idMuseo).subscribe(
       (rolesResponse) => {
         this.roles = rolesResponse.map((rol: any) => ({
@@ -75,10 +75,10 @@ export class UserCreateComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.errorMessage = null; // Limpiar mensajes previos
+    this.errorMessage = null; 
     if (this.userForm.valid) {
-      const email = this.userForm.value.email; // Captura el email antes de crear el usuario
-      const idRol = this.userForm.value.idRol; // Captura el rol seleccionado
+      const email = this.userForm.value.email; 
+      const idRol = this.userForm.value.idRol; 
       const idMuseo = 1;
 
       this.usersService.createUser(this.userForm.value).subscribe(

@@ -1,6 +1,6 @@
 .container {
     max-width: 600px;
-    margin: 0 auto; /* Centra horizontalmente */
+    margin: 0 auto; 
     padding: 16px;
   }
   
@@ -54,7 +54,7 @@
   
   /* Mensaje de Error */
   .error-message {
-    color: #f44336; /* Rojo para indicar error */
+    color: #f44336; 
     font-size: 14px;
     margin-top: 16px;
     font-weight: 500;
@@ -63,12 +63,12 @@
   
   /* Mensaje de Éxito */
   .success-message {
-    color: #4caf50; /* Verde para éxito */
+    color: #4caf50; 
     font-size: 14px;
     margin: 16px 0;
     text-align: center;
     font-weight: 500;
-    background-color: #e8f5e9; /* Fondo verde claro */
+    background-color: #e8f5e9; 
     padding: 10px;
     border: 1px solid #4caf50;
     border-radius: 4px;

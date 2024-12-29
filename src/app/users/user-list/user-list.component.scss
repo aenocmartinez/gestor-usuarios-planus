@@ -1,7 +1,7 @@
 /* Estructura General */
 .container {
     max-width: 1200px;
-    margin: 0 auto; /* Centra el contenedor */
+    margin: 0 auto; 
     padding: 16px;
   }
   
@@ -13,7 +13,7 @@
   
   /* Buscador y Botón */
   header .d-flex {
-    gap: 16px; /* Añade espacio entre el buscador y el botón */
+    gap: 16px; 
   }
   
   mat-form-field {
@@ -37,8 +37,8 @@
   button[routerLink="/users/create"] {
     font-size: 14px;
     font-weight: 500;
-    white-space: nowrap; /* Evita que el texto se divida */
-    margin-left: 32px; /* Incrementa el espacio entre el botón y el buscador */
+    white-space: nowrap; 
+    margin-left: 32px; 
   }
   
   /* Tabla */
@@ -48,7 +48,7 @@
       color: #3f51b5;
       background-color: #f3f6f9;
       padding: 16px;
-      text-align: center; /* Títulos centrados */
+      text-align: center; 
     }
   
     td {
@@ -72,30 +72,30 @@
   /* Pie de Página */
   .footer {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    text-align: center; /* Asegura que el texto esté alineado */
-    margin-top: 16px; /* Espaciado superior */
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    margin-top: 16px;
     font-size: 14px;
     color: #999;
-    height: 60px; /* Define una altura fija para el pie */
-    background-color: #f9f9f9; /* Fondo claro */
+    height: 60px; 
+    background-color: #f9f9f9; 
   }
   
   .success-message {
-    color: #4caf50; /* Verde para éxito */
+    color: #4caf50; 
     font-size: 16px;
     margin: 16px 0;
     font-weight: 500;
     text-align: center;
-    background-color: #e8f5e9; /* Fondo verde claro */
+    background-color: #e8f5e9; 
     padding: 10px;
     border: 1px solid #4caf50;
     border-radius: 4px;
   }
   
   .success-snackbar {
-    background-color: #4caf50; /* Verde éxito */
+    background-color: #4caf50; 
     color: white;
     font-size: 16px;
     text-align: center;

@@ -7,7 +7,7 @@ import { AuthService } from '../core/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
-  private readonly baseUrl = `${environment.apiUrl}/Usuarios`; // Corregir el uso de template literals
+  private readonly baseUrl = `${environment.apiUrl}/Usuarios`; 
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -15,7 +15,7 @@ export class UsersService {
     const token = localStorage.getItem('token');
     if (!token) {
       console.warn('Token no disponible.');
-      return new HttpHeaders(); // Devuelve un encabezado vacío
+      return new HttpHeaders(); 
     }
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
@@ -64,14 +64,14 @@ export class UsersService {
   }
 
   getRolesByMuseo(idMuseo: number): Observable<any[]> {
-    const url = `${environment.apiUrl}/Museos/ObtenerRolesPorMuseo/${idMuseo}`; // Utiliza `environment.apiUrl`
+    const url = `${environment.apiUrl}/Museos/ObtenerRolesPorMuseo/${idMuseo}`; 
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(url, { headers });
   }
 
   assignPasswordToUser(emailUsuario: string, password: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    const url = `${environment.apiUrl}/Autenticacion/AsignarPasswordAUsuario`; // Utiliza `environment.apiUrl`
+    const url = `${environment.apiUrl}/Autenticacion/AsignarPasswordAUsuario`; 
     const body = { emailUsuario, password };
     return this.http.put(url, body, { headers });
   }

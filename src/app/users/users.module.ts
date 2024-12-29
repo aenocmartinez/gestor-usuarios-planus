@@ -9,7 +9,7 @@ import { UserCreateComponent } from './user-create/user-create.component';
   imports: [
     CommonModule,
     UsersRoutingModule,
-    UserListComponent, // Importa los componentes standalone
+    UserListComponent, 
     UserEditComponent,
     UserCreateComponent,
   ],

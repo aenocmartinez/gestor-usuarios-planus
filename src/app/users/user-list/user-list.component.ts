@@ -43,7 +43,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private router: Router,
-    private snackBar: MatSnackBar // Inyección de MatSnackBar
+    private snackBar: MatSnackBar 
   ) {
     this.currentYear = new Date().getFullYear();
   }
@@ -61,13 +61,13 @@ export class UserListComponent implements OnInit {
   }
 
   checkSuccessMessage(): void {
-    // Captura el mensaje desde el estado del enrutador
+    
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { successMessage?: string };
     this.successMessage = state?.successMessage || null;
 
     if (this.successMessage) {
-      // Muestra el mensaje en un MatSnackBar
+      
       this.snackBar.open(this.successMessage, 'Cerrar', {
         duration: 5000,
         verticalPosition: 'top',
@@ -75,7 +75,7 @@ export class UserListComponent implements OnInit {
         panelClass: ['success-snackbar'],
       });
 
-      // Borra el mensaje del estado después de mostrarlo
+      
       setTimeout(() => {
         this.successMessage = null;
       }, 5000);

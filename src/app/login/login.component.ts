@@ -88,10 +88,10 @@ export class LoginComponent implements AfterViewInit {
         .subscribe(
           (response: any) => {
             if (response.token) {
-              localStorage.setItem('token', response.token); // Guarda el token
-              localStorage.setItem('nombreUsuario', response.nombreUsuario); // Guarda el nombre
+              localStorage.setItem('token', response.token); 
+              localStorage.setItem('nombreUsuario', response.nombreUsuario);
               localStorage.setItem('idSesion', response.idSesion);
-              this.router.navigate(['/users']); // Redirige al listado de usuarios
+              this.router.navigate(['/users']); 
             } else {
               console.warn('Respuesta inesperada del servidor:', response);
               this.errorMessage = 'Error al iniciar sesión. Por favor, inténtelo de nuevo.';

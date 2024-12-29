@@ -21,7 +21,7 @@ import { UsersService } from '../users.service';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatSelectModule, // Para el select de roles
+    MatSelectModule,
   ],
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss'],
@@ -30,9 +30,9 @@ export class UserEditComponent implements OnInit {
   userForm: FormGroup;
   errorMessage: string | null = null;
   email: string = '';
-  userId: string = ''; // Propiedad para el ID del usuario
-  currentRoleId: string | null = null; // Propiedad para el rol actual del usuario
-  roles: { value: string; label: string }[] = []; // Listado de roles disponibles
+  userId: string = ''; 
+  currentRoleId: string | null = null; 
+  roles: { value: string; label: string }[] = []; 
 
   constructor(
     private usersService: UsersService,
@@ -47,18 +47,18 @@ export class UserEditComponent implements OnInit {
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
       password: [''],
       id: [''],
-      rol: ['', [Validators.required]], // Campo para el rol seleccionado
+      rol: ['', [Validators.required]], 
     });
   }
 
   ngOnInit(): void {
     this.email = this.route.snapshot.paramMap.get('email') || '';
     this.loadUserData();
-    this.loadRoles(); // Cargar roles disponibles
+    this.loadRoles(); 
   }
 
   loadRoles(): void {
-    const idMuseo = 1; // Por defecto, el museo es 1
+    const idMuseo = 1; 
     this.usersService.getRolesByMuseo(idMuseo).subscribe(
       (roles) => {
         this.roles = roles.map((role) => ({
@@ -80,14 +80,14 @@ export class UserEditComponent implements OnInit {
     this.usersService.getUserByEmail(this.email).subscribe(
       (user) => {
         this.userId = user.id;
-        this.currentRoleId = user.museosYRoles?.[0]?.roles?.[0]?.id || null; // Obtener el rol actual
+        this.currentRoleId = user.museosYRoles?.[0]?.roles?.[0]?.id || null; 
 
         this.userForm.patchValue({
           nombres: user.nombres,
           apellidos: user.apellidos,
           email: user.email,
           id: user.id,
-          rol: this.currentRoleId, // Establecer el rol actual en el formulario
+          rol: this.currentRoleId, 
         });
       },
       (error) => {
@@ -100,49 +100,6 @@ export class UserEditComponent implements OnInit {
     );
   }
 
-  // onSubmit(): void {
-  //   if (this.userForm.valid) {
-  //     const user = {
-  //       Nombres: this.userForm.value.nombres,
-  //       Apellidos: this.userForm.value.apellidos,
-  //       Email: this.userForm.getRawValue().email,
-  //       Password: this.userForm.value.password || '',
-  //       id: this.userId,
-  //     };
-
-  //     this.usersService.updateUser(user).subscribe(
-  //       () => {
-  //         const newRoleId = this.userForm.value.rol;
-
-  //         if (this.currentRoleId && this.currentRoleId !== newRoleId) {
-  //           // Si el rol ha cambiado, desasignar y reasignar
-  //           this.usersService.unassignRoleFromUser(this.userId, this.currentRoleId, 1).subscribe(
-  //             () => {
-  //               this.assignNewRole(newRoleId); // Asignar el nuevo rol
-  //             },
-  //             (error) => {
-  //               console.error('Error al desasignar rol:', error);
-  //               this.snackBar.open('Error al desasignar el rol actual.', 'Cerrar', {
-  //                 duration: 5000,
-  //                 panelClass: ['error-snackbar'],
-  //               });
-  //             }
-  //           );
-  //         } else {
-  //           this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
-  //             duration: 5000,
-  //             panelClass: ['success-snackbar'],
-  //           });
-  //           this.router.navigate(['/users']);
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error('Error al actualizar usuario:', error);
-  //         this.errorMessage = 'No se pudo actualizar el usuario. Por favor, intenta de nuevo.';
-  //       }
-  //     );
-  //   }
-  // }
   onSubmit(): void {
     if (this.userForm.valid) {
       const user = {
@@ -156,12 +113,11 @@ export class UserEditComponent implements OnInit {
       this.usersService.updateUser(user).subscribe(
         () => {
           const newRoleId = this.userForm.value.rol;
-  
-          // Si no tiene un rol actual, primero asignarlo al museo
+
           if (!this.currentRoleId) {
             this.usersService.addUserToMuseum(this.userId, 1).subscribe(
               () => {
-                this.assignNewRole(newRoleId); // Asignar el rol después de asignar al museo
+                this.assignNewRole(newRoleId); 
               },
               (error) => {
                 console.error('Error al asignar usuario al museo:', error);
@@ -172,10 +128,10 @@ export class UserEditComponent implements OnInit {
               }
             );
           } else if (this.currentRoleId !== newRoleId) {
-            // Si tiene un rol actual y cambió, desasignar y reasignar
+            
             this.usersService.unassignRoleFromUser(this.userId, this.currentRoleId, 1).subscribe(
               () => {
-                this.assignNewRole(newRoleId); // Asignar el nuevo rol
+                this.assignNewRole(newRoleId); 
               },
               (error) => {
                 console.error('Error al desasignar rol:', error);
@@ -186,7 +142,7 @@ export class UserEditComponent implements OnInit {
               }
             );
           } else {
-            // Si no hay cambios en el rol, simplemente mostrar éxito
+            
             this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
               duration: 5000,
               panelClass: ['success-snackbar'],
