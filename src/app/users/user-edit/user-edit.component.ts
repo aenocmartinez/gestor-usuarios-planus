@@ -100,6 +100,49 @@ export class UserEditComponent implements OnInit {
     );
   }
 
+  // onSubmit(): void {
+  //   if (this.userForm.valid) {
+  //     const user = {
+  //       Nombres: this.userForm.value.nombres,
+  //       Apellidos: this.userForm.value.apellidos,
+  //       Email: this.userForm.getRawValue().email,
+  //       Password: this.userForm.value.password || '',
+  //       id: this.userId,
+  //     };
+
+  //     this.usersService.updateUser(user).subscribe(
+  //       () => {
+  //         const newRoleId = this.userForm.value.rol;
+
+  //         if (this.currentRoleId && this.currentRoleId !== newRoleId) {
+  //           // Si el rol ha cambiado, desasignar y reasignar
+  //           this.usersService.unassignRoleFromUser(this.userId, this.currentRoleId, 1).subscribe(
+  //             () => {
+  //               this.assignNewRole(newRoleId); // Asignar el nuevo rol
+  //             },
+  //             (error) => {
+  //               console.error('Error al desasignar rol:', error);
+  //               this.snackBar.open('Error al desasignar el rol actual.', 'Cerrar', {
+  //                 duration: 5000,
+  //                 panelClass: ['error-snackbar'],
+  //               });
+  //             }
+  //           );
+  //         } else {
+  //           this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
+  //             duration: 5000,
+  //             panelClass: ['success-snackbar'],
+  //           });
+  //           this.router.navigate(['/users']);
+  //         }
+  //       },
+  //       (error) => {
+  //         console.error('Error al actualizar usuario:', error);
+  //         this.errorMessage = 'No se pudo actualizar el usuario. Por favor, intenta de nuevo.';
+  //       }
+  //     );
+  //   }
+  // }
   onSubmit(): void {
     if (this.userForm.valid) {
       const user = {
@@ -109,13 +152,27 @@ export class UserEditComponent implements OnInit {
         Password: this.userForm.value.password || '',
         id: this.userId,
       };
-
+  
       this.usersService.updateUser(user).subscribe(
         () => {
           const newRoleId = this.userForm.value.rol;
-
-          if (this.currentRoleId && this.currentRoleId !== newRoleId) {
-            // Si el rol ha cambiado, desasignar y reasignar
+  
+          // Si no tiene un rol actual, primero asignarlo al museo
+          if (!this.currentRoleId) {
+            this.usersService.addUserToMuseum(this.userId, 1).subscribe(
+              () => {
+                this.assignNewRole(newRoleId); // Asignar el rol después de asignar al museo
+              },
+              (error) => {
+                console.error('Error al asignar usuario al museo:', error);
+                this.snackBar.open('No se pudo asignar el usuario al museo.', 'Cerrar', {
+                  duration: 5000,
+                  panelClass: ['error-snackbar'],
+                });
+              }
+            );
+          } else if (this.currentRoleId !== newRoleId) {
+            // Si tiene un rol actual y cambió, desasignar y reasignar
             this.usersService.unassignRoleFromUser(this.userId, this.currentRoleId, 1).subscribe(
               () => {
                 this.assignNewRole(newRoleId); // Asignar el nuevo rol
@@ -129,6 +186,7 @@ export class UserEditComponent implements OnInit {
               }
             );
           } else {
+            // Si no hay cambios en el rol, simplemente mostrar éxito
             this.snackBar.open('Usuario actualizado exitosamente.', 'Cerrar', {
               duration: 5000,
               panelClass: ['success-snackbar'],
@@ -143,7 +201,7 @@ export class UserEditComponent implements OnInit {
       );
     }
   }
-
+  
   private assignNewRole(newRoleId: string): void {
     this.usersService.assignRoleToUser(this.userId, 1, newRoleId).subscribe(
       () => {
@@ -162,6 +220,7 @@ export class UserEditComponent implements OnInit {
       }
     );
   }
+  
 
   cancel(): void {
     this.router.navigate(['/users']);
