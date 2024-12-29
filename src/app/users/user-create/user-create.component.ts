@@ -52,19 +52,108 @@ export class UserCreateComponent {
     }    
   }  
 
+  // onSubmit(): void {
+  //   this.errorMessage = null; // Limpiar mensajes previos
+  //   if (this.userForm.valid) {
+  //     const email = this.userForm.value.email; // Captura el email antes de crear el usuario
+  
+  //     this.usersService.createUser(this.userForm.value).subscribe(
+  //       () => {
+  //         // Una vez creado el usuario, obtén su ID usando el email
+  //         this.usersService.getUserByEmail(email).subscribe(
+  //           (userResponse) => {
+  //             const idUsuario = userResponse?.id; // Asume que el servicio retorna el ID como "id"
+  
+  //             if (idUsuario) {
+  //               // Llama al servicio para agregar el usuario al museo
+  //               this.usersService.addUserToMuseum(idUsuario).subscribe(
+  //                 () => {
+  //                   // Mostrar mensaje de éxito
+  //                   this.snackBar.open('Usuario creado y asociado al museo exitosamente.', 'Cerrar', {
+  //                     duration: 5000,
+  //                     verticalPosition: 'top',
+  //                     horizontalPosition: 'center',
+  //                     panelClass: ['success-snackbar'], // Aplica el estilo personalizado
+  //                   });
+  //                   this.router.navigate(['/users']);
+  //                 },
+  //                 (error) => {
+  //                   console.error('Error al asociar usuario al museo:', error);
+  //                   this.errorMessage = 'El usuario fue creado, pero no pudo ser asociado al museo.';
+  //                 }
+  //               );
+  //             } else {
+  //               this.errorMessage = 'Usuario creado, pero no se pudo obtener el ID para asociarlo al museo.';
+  //             }
+  //           },
+  //           (error) => {
+  //             console.error('Error al obtener ID del usuario:', error);
+  //             this.errorMessage = 'El usuario fue creado, pero no se pudo obtener su información.';
+  //           }
+  //         );
+  //       },
+  //       (error) => {
+  //         console.error('Error al crear usuario:', error);
+  //         if (error.status === 400 && error.error) {
+  //           this.errorMessage = this.getPasswordRequirementsMessage(error);
+  //         } else {
+  //           this.errorMessage = 'Ocurrió un error inesperado. Inténtalo de nuevo.';
+  //         }
+  //       }
+  //     );
+  //   }
+  // }
+
   onSubmit(): void {
     this.errorMessage = null; // Limpiar mensajes previos
     if (this.userForm.valid) {
+      const email = this.userForm.value.email; // Captura el email antes de crear el usuario
+  
       this.usersService.createUser(this.userForm.value).subscribe(
         () => {
-          // Mostrar mensaje de éxito con MatSnackBar
-          this.snackBar.open('Usuario creado exitosamente.', 'Cerrar', {
-            duration: 5000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['success-snackbar'], // Aplica el estilo personalizado
-          });
-          this.router.navigate(['/users']);
+          // Una vez creado el usuario, obtén su ID usando el email
+          this.usersService.getUserByEmail(email).subscribe(
+            (userResponse) => {
+              const idUsuario = userResponse?.id; // Asume que el servicio retorna el ID como "id"
+              const idMuseo = 1;
+              const idRol = '503D8E48-A937-499F-90E4-CB7252C2B2F4';
+  
+              if (idUsuario) {
+                // Llama al servicio para agregar el usuario al museo
+                this.usersService.addUserToMuseum(idUsuario).subscribe(
+                  () => {
+                    // Si se agrega al museo exitosamente, asignar rol al usuario
+                    this.usersService.assignRoleToUser(idUsuario, idMuseo, idRol).subscribe(
+                      () => {
+                        // Mostrar mensaje de éxito
+                        this.snackBar.open('Usuario creado, asociado al museo y rol asignado exitosamente.', 'Cerrar', {
+                          duration: 5000,
+                          verticalPosition: 'top',
+                          horizontalPosition: 'center',
+                          panelClass: ['success-snackbar'], // Aplica el estilo personalizado
+                        });
+                        this.router.navigate(['/users']);
+                      },
+                      (error) => {
+                        console.error('Error al asignar rol al usuario:', error);
+                        this.errorMessage = 'El usuario fue creado y asociado al museo, pero no pudo asignarse el rol.';
+                      }
+                    );
+                  },
+                  (error) => {
+                    console.error('Error al asociar usuario al museo:', error);
+                    this.errorMessage = 'El usuario fue creado, pero no pudo ser asociado al museo.';
+                  }
+                );
+              } else {
+                this.errorMessage = 'Usuario creado, pero no se pudo obtener el ID para asociarlo al museo.';
+              }
+            },
+            (error) => {
+              console.error('Error al obtener ID del usuario:', error);
+              this.errorMessage = 'El usuario fue creado, pero no se pudo obtener su información.';
+            }
+          );
         },
         (error) => {
           console.error('Error al crear usuario:', error);
@@ -76,7 +165,7 @@ export class UserCreateComponent {
         }
       );
     }
-  }
+  }  
 
   cancel(): void {
     this.router.navigate(['/users']);

@@ -19,7 +19,17 @@ export class UsersService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
   
+  assignRoleToUser(idUsuario: string, idMuseo: number, idRol: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const url = `${this.baseUrl}/AsignarRolAUsuario`;
+    const body = {
+      idUsuario,
+      idRol,
+      idMuseo,
+    };
   
+    return this.http.put(url, body, { headers });
+  }  
 
   getUsers(): Observable<any> {
     const headers = this.getAuthHeaders();
@@ -45,4 +55,12 @@ export class UsersService {
     const headers = this.getAuthHeaders();
     return this.http.delete(`${this.baseUrl}/Eliminar/${email}`, { headers });
   }
+
+  addUserToMuseum(idUsuario: string, idMuseo: number = 1): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const url = `${this.baseUrl}/AgregarAMuseo`;
+    const body = { idUsuario, idMuseo };
+    return this.http.post(url, body, { headers });
+  }
+  
 }
